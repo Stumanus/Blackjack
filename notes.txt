@@ -1,0 +1,14 @@
+- Scoring mechanism needs to be reworked to score each individual hand
+    - Score each hand after it is played?
+    - Iterate through hand list and return the sum of individual hand scores?
+    *** Current Functionality: Each hand object is initialized with a bet amount that can be changed depending on how the hand is played. 
+    *** Bet incrementing logic is built into the different types of moves (hit,stand,split,double)
+    *** THIS FUNCIONALITY HAS NOT BEEN TESTED YET
+
+- Add indication of what hand is being played (within hand_list) into game board display functions
+    - Should Hand() have a self.in_play = True/False boolean? This could be used to alter the way it's displayed in print_player_hand()
+
+- Right now cards are discarded after a round with list.clear(), write a function (nested for loops) to extract each card from 
+    player hand_list and add to discard_pile?
+    -Also, each round adds a new deck to the deck. So the cards in play keeps increasing. Sometimes duplicate cards can be dealt. 
+    - Making deck.cards a property might be a solution
