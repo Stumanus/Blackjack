@@ -12,3 +12,5 @@
     player hand_list and add to discard_pile?
     -Also, each round adds a new deck to the deck. So the cards in play keeps increasing. Sometimes duplicate cards can be dealt. 
     - Making deck.cards a property might be a solution
+
+Smol edit!
