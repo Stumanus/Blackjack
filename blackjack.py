@@ -1,3 +1,4 @@
+
 import random
 import os
 
@@ -99,6 +100,9 @@ while playing == True:
     # Initial round setup: Create deck, take bet, deal hands
     dealer.hand_list.clear()
     player.hand_list.clear()
+    if len(deck.cards) < 10:
+        print('Shuffling deck...')
+        deck.shuffe()
     print(f'Cards in Deck: {len(deck.cards)}')
     deck.shuffle()
     print('You have ' + str(player.money) + ' chips.')
