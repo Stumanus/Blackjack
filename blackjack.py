@@ -53,23 +53,39 @@ class Hand:
             aces -= 1
         return score
 
+
     def hit(self):
         card = deck.deal(1)
         self.cards.append(card[0])
 
-def print_dealers_turn():
+def display():
     os.system('cls')
     print('Dealer:')
-    dealer.show_all()
+    if player_turn == True:
+        dealer.show1()
+    else:
+        dealer.show_all()
     print('Player:')
-    player.show_all()
+    for hand in player.hand_list:
+        if len(player.hand_list) > 1 and hand == hand_in_play:
+            print(str(hand.cards) + '<--Playing')
+        else:
+            print(str(hand.cards))     
 
-def print_players_turn():
-    os.system('cls')
-    print('Dealer')
-    dealer.show1()
-    print('Player')
-    player.show_all()
+
+# def :
+#     os.system('cls')
+#     print('Dealer:')
+#     dealer.show_all()
+#     print('Player:')
+#     player.show_all()
+
+# def display():
+#     os.system('cls')
+#     print('Dealer')
+#     dealer.show1()
+#     print('Player')
+#     player.show_all()
 
 def bet_input():
     bet_amount = None
@@ -101,6 +117,7 @@ if __name__ == '__main__':
     while playing == True: 
         
         # Initial round setup: Create deck, take bet, deal hands
+        player_turn = True
         dealer.hand_list.clear()
         player.hand_list.clear()
         deck.shuffle
@@ -110,20 +127,21 @@ if __name__ == '__main__':
         print('Dealing cards...')
         dealer.hand_list.append(Hand(deck.deal(2),0))
         player.hand_list.append(Hand(deck.deal(2),bet))
-        print_players_turn()
+        hand_in_play = player.hand_list[0]
+        display()
         
         # Check for blackjacks before gameplay starts
         if dealer.hand_list[0].score == 21 and player.hand_list[0].score == 21:
-            print_dealers_turn()
+            display()
             print('Push')
             continue
         elif dealer.hand_list[0].score == 21:
-            print_dealers_turn()
+            display()
             print('Dealer Blackjack!')
             player.money -= bet
             continue
         elif player.hand_list[0].score == 21:
-            print_dealers_turn()
+            display()
             print('Blackjack!')
             player.money += bet * 1.5
             continue
@@ -139,14 +157,14 @@ if __name__ == '__main__':
             move = input('Type h to hit, s to stand, a to split, d to double down')
             if  move == 'h':
                 hand_in_play.hit()
-                print_players_turn()
+                display()
                 continue
             elif move == 'a':
-                if len(hand_in_play.cards) == 2 :
-                    # and hand_in_play.cards[0][:-1] == hand_in_play.cards[1][:-1]: '''other half of split logic check'''
+                if len(hand_in_play.cards) == 2:
+                #  and hand_in_play.cards[0][:-1] == hand_in_play.cards[1][:-1]:
                     new_hand = Hand([hand_in_play.cards.pop()],hand_in_play.bet)
                     player.hand_list.append(new_hand)
-                    print_players_turn()
+                    display()
                     continue
                 else:
                     print('You can\'t split this hand!')
@@ -156,37 +174,38 @@ if __name__ == '__main__':
                     hand_in_play.hit()
                     hand_in_play.bet * 2
                     hand_in_play.doubled_down == True
-                    print_players_turn()
+                    display()
                     i+=1
                 else:
                     print('You can only double down once on a hand!')
             elif move == 's':
                 i+=1
                 hand_in_play.stand = True
-                print_players_turn()
+                display()
                 continue
+        player_turn = False
         
         # Scoring logic:
         if hand_in_play.score > 21:
-            print_dealers_turn()
+            display()
             print('Player bust')
             player.money -= bet
             continue
         while dealer.hand_list[0].score < 17:
             dealer.hand_list[0].hit()
         if dealer.hand_list[0].score > 21:
-            print_dealers_turn()
+            display()
             print('Dealer bust!')
             player.money += bet
             continue
         elif dealer.hand_list[0].score > hand_in_play.score:
-            print_dealers_turn()
+            display()
             print('Dealer wins!')
             player.money -= bet
         elif dealer.hand_list[0].score < hand_in_play.score:
-            print_dealers_turn()
+            display()
             print('Player wins!')
             player.money += bet
         else:
-            print_dealers_turn()
+            display()
             print('Push')

@@ -8,8 +8,4 @@
 - Add indication of what hand is being played (within hand_list) into game board display functions
     - Should Hand() have a self.in_play = True/False boolean? This could be used to alter the way it's displayed in print_player_hand()
 
-- Right now cards are discarded after a round with list.clear(), write a function (nested for loops) to extract each card from 
-    player hand_list and add to discard_pile?
-
-
 
