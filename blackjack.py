@@ -61,6 +61,7 @@ def display():
     print('Player:')
     for hand in player.hand_list:
         print(str(hand.cards) + str(hand.state))
+    print('\n')
 
 def bet_input():
     bet_amount = None
@@ -135,7 +136,7 @@ if __name__ == '__main__':
                 hand_in_play.state = 'bust'
                 i+=1
                 continue
-            move = input('Type h to hit, s to stand, a to split, d to double down')
+            move = move_input()
             if  move == 'h':
                 hand_in_play.hit()
                 continue
@@ -173,19 +174,19 @@ if __name__ == '__main__':
             for hand in plyr.hand_list:
                 if hand.score > 21:
                     hand.state = 'bust'
-                    player.money -= hand.bet
+                    plyr.money -= hand.bet
                     continue
                 elif hand.score > dealer_score:
                     hand.state = 'win'
-                    player.money += hand.bet
+                    plyr.money += hand.bet
                     continue
                 elif hand.score < dealer_score:
                     hand.state = 'lose'
-                    player.money -= hand.bet
+                    plyr.money -= hand.bet
                     continue
                 elif hand.score == dealer_score:
                     hand.state = 'push'
-                    player.money -= hand.bet
+                    plyr.money -= hand.bet
         display()
         
         

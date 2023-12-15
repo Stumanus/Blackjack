@@ -8,4 +8,10 @@
 - Add indication of what hand is being played (within hand_list) into game board display functions
     - Should Hand() have a self.in_play = True/False boolean? This could be used to alter the way it's displayed in print_player_hand()
 
+-Testing Notes 12/15/23:
+    -Scoring mechanism not working, probably need to remove scoring logic from outside the new scoring loop. 
+    -I was able to keep betting after having 0 chips. Placed bed with -20 chips. 
+    -Dealer is sometimes being assigned the push state in final scoring loop, when they should be assigned win state (to their hand)
+    - 
+
 
