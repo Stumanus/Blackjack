@@ -1,17 +1,7 @@
-- Scoring mechanism needs to be reworked to score each individual hand
-    - Score each hand after it is played?
-    - Iterate through hand list and return the sum of individual hand scores?
-    *** Current Functionality: Each hand object is initialized with a bet amount that can be changed depending on how the hand is played. 
-    *** Bet incrementing logic is built into the different types of moves (hit,stand,split,double)
-    *** THIS FUNCIONALITY HAS NOT BEEN TESTED YET
-
-- Add indication of what hand is being played (within hand_list) into game board display functions
-    - Should Hand() have a self.in_play = True/False boolean? This could be used to alter the way it's displayed in print_player_hand()
-
--Testing Notes 12/15/23:
-    -Scoring mechanism not working, probably need to remove scoring logic from outside the new scoring loop. 
-    -I was able to keep betting after having 0 chips. Placed bed with -20 chips. 
-    -Dealer is sometimes being assigned the push state in final scoring loop, when they should be assigned win state (to their hand)
-    - 
-
+Needs Fixing:
+    -There needs to be a good way to quit the game at any stage. Currently there is not. 
+    -There needs to be logic that prevents player from betting with 0 or less money (betting with -10 chips for example)
+    -An exit script would be nice. Maybe something that tells the player how much they won or lost over the course of play.
+    or a file that tracks total player winnings?
+    -
 
