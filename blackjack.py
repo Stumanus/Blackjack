@@ -55,14 +55,14 @@ def display():
     os.system('cls')
     print('Dealer:')
     if player_turn == True:
-        print(str([dealer.hand_list[0].cards[0], 'X']) + str(dealer.hand_list[0].state))
+        print(str([dealer_hand.cards[0], 'X']))
     else:
-        [print(str(hand.cards) + str(hand.state)) for hand in dealer.hand_list]
+        [print(str(hand.cards) + str(hand.score)) for hand in dealer.hand_list]
     print('Player:')
     for hand in player.hand_list:
         print(str(hand.cards) + str(hand.state))
     print('\n')
-
+    
 def bet_input():
     bet_amount = None
     while bet_amount == None:
@@ -97,29 +97,31 @@ if __name__ == '__main__':
         dealer.hand_list.clear()
         player.hand_list.clear()
         deck.shuffle
-        print(f'Cards in Deck: {len(deck.cards)}')
         print('You have ' + str(int(player.money)) + ' chips.')
-        bet = bet_input()
-        print('Dealing cards...')
         dealer.hand_list.append(Hand(deck.deal(2),0))
-        player.hand_list.append(Hand(deck.deal(2),bet))
+        player.hand_list.append(Hand(deck.deal(2),bet_input()))
+        print('Dealing cards...')
         hand_in_play = player.hand_list[0]
+        dealer_hand = dealer.hand_list[0]
         
         # Check for blackjacks before gameplay starts
-        if dealer.hand_list[0].score == 21 and player.hand_list[0].score == 21:
+        if dealer_hand.score == 21 and hand_in_play.score == 21:
+            player_turn = False
             display()
             print('Push')
-            player.money -= bet
+            player.money -= hand_in_play.bet
             continue
-        elif dealer.hand_list[0].score == 21:
+        elif dealer_hand.score == 21:
+            player_turn = False
             display()
             print('Dealer Blackjack!')
-            player.money -= bet
+            player.money -= hand_in_play.bet
             continue
-        elif player.hand_list[0].score == 21:
+        elif hand_in_play.score == 21:
+            player_turn = False
             display()
             print('Blackjack!')
-            player.money += bet * 1.5
+            player.money += hand_in_play.bet * 1.5
             continue
         
         # Gameplay logic:
@@ -141,8 +143,7 @@ if __name__ == '__main__':
                 hand_in_play.hit()
                 continue
             elif move == 'a':
-                if len(hand_in_play.cards) == 2:
-                #  and hand_in_play.cards[0][:-1] == hand_in_play.cards[1][:-1]:
+                if len(hand_in_play.cards) == 2 and hand_in_play.cards[0][:-1] == hand_in_play.cards[1][:-1]:
                     new_hand = Hand([hand_in_play.cards.pop()],hand_in_play.bet)
                     player.hand_list.append(new_hand)
                     continue
@@ -152,7 +153,7 @@ if __name__ == '__main__':
             elif move == 'd':
                 if hand_in_play.state != 'doubled_down':
                     hand_in_play.hit()
-                    hand_in_play.bet * 2
+                    hand_in_play.bet *= 2
                     hand_in_play.state = 'doubled_down'
                     i+=1
                 else:
@@ -162,33 +163,32 @@ if __name__ == '__main__':
                 hand_in_play.state = 'stand'
                 continue
         player_turn = False
-        while dealer.hand_list[0].score < 17:
-                dealer.hand_list[0].hit()
-        
+        while dealer_hand.score < 17:
+            dealer_hand.hit()
+           
         # Scoring logic:
-        dealer_score = dealer.hand_list[0].score
+        dealer_score = dealer_hand.score
         if dealer_score > 21:
-            dealer.hand_list[0].state = 'bust'
+            dealer_hand.state = 'bust'
             dealer_score = 0
-        for plyr in [dealer,player]:   
-            for hand in plyr.hand_list:
-                if hand.score > 21:
-                    hand.state = 'bust'
-                    plyr.money -= hand.bet
-                    continue
-                elif hand.score > dealer_score:
-                    hand.state = 'win'
-                    plyr.money += hand.bet
-                    continue
-                elif hand.score < dealer_score:
-                    hand.state = 'lose'
-                    plyr.money -= hand.bet
-                    continue
-                elif hand.score == dealer_score:
-                    hand.state = 'push'
-                    plyr.money -= hand.bet
+        for hand in player.hand_list:
+            if hand.score > 21:
+                hand.state = 'bust'
+                player.money -= hand.bet
+                continue
+            elif hand.score > dealer_score:
+                hand.state = 'win'
+                player.money += hand.bet
+                continue
+            elif hand.score < dealer_score:
+                hand.state = 'lose'
+                player.money -= hand.bet
+                continue
+            elif hand.score == dealer_score:
+                hand.state = 'push'
+                player.money -= hand.bet
         display()
-        
+    
         
         
         
