@@ -1,7 +1,0 @@
-Needs Fixing:
-    -There needs to be a good way to quit the game at any stage. Currently there is not. 
-    -There needs to be logic that prevents player from betting with 0 or less money (betting with -10 chips for example)
-    -An exit script would be nice. Maybe something that tells the player how much they won or lost over the course of play.
-    or a file that tracks total player winnings?
-    -
-
