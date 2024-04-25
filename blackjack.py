@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 class Deck:
     def __init__(self):
@@ -52,6 +53,7 @@ class Hand:
         self.cards.append(card[0])
 
 def display():
+    time.sleep(.5)
     os.system('cls')
     print('Dealer:')
     if player_turn == True:
@@ -67,18 +69,22 @@ def bet_input():
     bet_amount = None
     while bet_amount == None:
         try:
-            input_amount = int(input('How much would you like to bet?\n'))
-            bet_amount = input_amount
+            bet_amount = int(input('How much would you like to bet?\n'))
+            bet_amount >= 0 and bet_amount <= player.money == True
         except:
             print(f'Your bet needs to be an amount between 1 and {player.money}' )
-    return bet_amount
+            continue
+        return bet_amount
 
 def move_input():
     move = None
     while move == None:
-        move_input = str(input('h = hit\ns = stand\na = split\nd = double down\n'))
+        move_input = str(input('h = hit\ns = stand\na = split\nd = double down\nor enter quit to end game\n'))
         if move_input in 'hsad':
             move = move_input
+        elif move_input == 'quit':
+            print(f'You\'re leaving the table with {player.money} chips.\nThanks for playing!')
+            exit()
         else:
             print('That\'s not a valid move.')
     return move
@@ -98,9 +104,13 @@ if __name__ == '__main__':
         player.hand_list.clear()
         deck.shuffle
         print('You have ' + str(int(player.money)) + ' chips.')
+        if player.money <= 0:
+            print('You\'re out of chips!\nGame Over!!')
+            exit()
         dealer.hand_list.append(Hand(deck.deal(2),0))
         player.hand_list.append(Hand(deck.deal(2),bet_input()))
         print('Dealing cards...')
+        time.sleep(.5)
         hand_in_play = player.hand_list[0]
         dealer_hand = dealer.hand_list[0]
         

@@ -1,0 +1,5 @@
+``Needs Fixing:
+    -There needs to be a good way to quit the game at any stage. Currently there is not. 
+    -There needs to be logic that prevents player from betting with 0 or less money (betting with -10 chips for example)
+    -Logic to prevent player from doubling down whithout enough money
+
