@@ -54,7 +54,7 @@ class Hand:
 
 def display():
     time.sleep(.5)
-    os.system('cls')
+    os.system('cls') if os.name == 'nt' else os.system('clear')
     print('Dealer:')
     if player_turn == True:
         print(str([dealer_hand.cards[0], 'X']))
